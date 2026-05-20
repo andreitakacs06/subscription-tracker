@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SubTracker - Subscription Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>">
+</head>
+<body>
+    <div id="app">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">S</span>
+                    <span class="logo-text">SubTracker</span>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active" data-page="dashboard"><span class="nav-icon">&#9673;</span> Dashboard</a></li>
+                <li><a href="#" class="nav-link" data-page="subscriptions"><span class="nav-icon">&#9776;</span> Subscriptions</a></li>
+                <li><a href="#" class="nav-link" data-page="calendar"><span class="nav-icon">&#9638;</span> Calendar</a></li>
+                <li><a href="#" class="nav-link" data-page="insights"><span class="nav-icon">&#9733;</span> Insights</a></li>
+                <li><a href="#" class="nav-link" data-page="add"><span class="nav-icon">&#43;</span> Add New</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="total-monthly">
+                    <span class="label">Monthly Total</span>
+                    <span class="amount" id="sidebar-total">$0.00</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Navigation -->
+        <nav class="mobile-nav">
+            <a href="#" class="mobile-nav-link active" data-page="dashboard"><span>&#9673;</span><small>Dashboard</small></a>
+            <a href="#" class="mobile-nav-link" data-page="subscriptions"><span>&#9776;</span><small>Subs</small></a>
+            <a href="#" class="mobile-nav-link" data-page="calendar"><span>&#9638;</span><small>Calendar</small></a>
+            <a href="#" class="mobile-nav-link" data-page="insights"><span>&#9733;</span><small>Insights</small></a>
+            <a href="#" class="mobile-nav-link" data-page="add"><span>&#43;</span><small>Add</small></a>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <section class="page active" id="page-dashboard">
+                <div class="page-header">
+                    <h1>Dashboard</h1>
+                    <p class="subtitle">Your subscription overview</p>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card gradient-purple">
+                        <div class="stat-icon">&#128176;</div>
+                        <div class="stat-info">
+                            <span class="stat-label">Monthly Spending</span>
+                            <span class="stat-value" id="stat-monthly">$0.00</span>
+                        </div>
+                    </div>
+                    <div class="stat-card gradient-blue">
+                        <div class="stat-icon">&#128197;</div>
+                        <div class="stat-info">
+                            <span class="stat-label">Yearly Total</span>
+                            <span class="stat-value" id="stat-yearly">$0.00</span>
+                        </div>
+                    </div>
+                    <div class="stat-card gradient-green">
+                        <div class="stat-icon">&#128203;</div>
+                        <div class="stat-info">
+                            <span class="stat-label">Active Subs</span>
+                            <span class="stat-value" id="stat-count">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card gradient-orange">
+                        <div class="stat-icon">&#9888;</div>
+                        <div class="stat-info">
+                            <span class="stat-label">Renewing Soon</span>
+                            <span class="stat-value" id="stat-upcoming">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Spending by Category</h3>
+                        <div class="chart-container">
+                            <canvas id="chart-categories"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Monthly Spending Trend</h3>
+                        <div class="chart-container">
+                            <canvas id="chart-trend"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Renewals -->
+                <div class="upcoming-section">
+                    <h3>Upcoming Renewals</h3>
+                    <div class="upcoming-list" id="upcoming-list">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Subscriptions Page -->
+            <section class="page" id="page-subscriptions">
+                <div class="page-header">
+                    <h1>My Subscriptions</h1>
+                    <p class="subtitle">Manage all your recurring payments</p>
+                    <div class="filter-bar">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="entertainment">Entertainment</button>
+                        <button class="filter-btn" data-filter="software">Software</button>
+                        <button class="filter-btn" data-filter="fitness">Fitness</button>
+                        <button class="filter-btn" data-filter="cloud">Cloud</button>
+                        <button class="filter-btn" data-filter="music">Music</button>
+                        <button class="filter-btn" data-filter="gaming">Gaming</button>
+                        <button class="filter-btn" data-filter="other">Other</button>
+                    </div>
+                </div>
+                <div class="subscriptions-list" id="subscriptions-list">
+                    <!-- Filled by JS -->
+                </div>
+            </section>
+
+            <!-- Calendar Page -->
+            <section class="page" id="page-calendar">
+                <div class="page-header">
+                    <h1>Calendar View</h1>
+                    <p class="subtitle">See when your payments hit</p>
+                    <div class="calendar-nav">
+                        <button class="btn-icon" id="cal-prev">&#8249;</button>
+                        <span id="cal-month-year">May 2026</span>
+                        <button class="btn-icon" id="cal-next">&#8250;</button>
+                    </div>
+                </div>
+                <div class="calendar-grid" id="calendar-grid">
+                    <!-- Filled by JS -->
+                </div>
+                <div class="calendar-details" id="calendar-details">
+                    <h3>Selected Day</h3>
+                    <p class="empty-state">Click a day to see renewals</p>
+                </div>
+            </section>
+
+            <!-- Insights Page -->
+            <section class="page" id="page-insights">
+                <div class="page-header">
+                    <h1>Insights & Waste Detection</h1>
+                    <p class="subtitle">Find savings and optimize spending</p>
+                </div>
+
+                <div class="insights-grid">
+                    <div class="insight-card warning">
+                        <div class="insight-header">
+                            <span class="insight-icon">&#9888;</span>
+                            <h3>Potential Waste</h3>
+                        </div>
+                        <div class="insight-body" id="insight-waste">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+                    <div class="insight-card info">
+                        <div class="insight-header">
+                            <span class="insight-icon">&#128269;</span>
+                            <h3>Duplicate Services</h3>
+                        </div>
+                        <div class="insight-body" id="insight-duplicates">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+                    <div class="insight-card success">
+                        <div class="insight-header">
+                            <span class="insight-icon">&#128200;</span>
+                            <h3>Yearly Projections</h3>
+                        </div>
+                        <div class="insight-body" id="insight-projections">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spending Breakdown Chart -->
+                <div class="chart-card full-width">
+                    <h3>Category Spending Analysis</h3>
+                    <div class="chart-container large">
+                        <canvas id="chart-breakdown"></canvas>
+                    </div>
+                </div>
+
+                <!-- Cost Comparison -->
+                <div class="chart-card full-width">
+                    <h3>Yearly Spending Projection</h3>
+                    <div class="chart-container large">
+                        <canvas id="chart-projection"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add Subscription Page -->
+            <section class="page" id="page-add">
+                <div class="page-header">
+                    <h1>Add Subscription</h1>
+                    <p class="subtitle">Track a new recurring payment</p>
+                </div>
+
+                <!-- Quick Add Templates -->
+                <div class="quick-add">
+                    <h3>Quick Add</h3>
+                    <div class="templates-grid" id="templates-grid">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- Manual Form -->
+                <div class="form-card">
+                    <h3>Or Add Manually</h3>
+                    <form id="add-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="sub-name">Name</label>
+                                <input type="text" id="sub-name" placeholder="e.g. Netflix" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="sub-price">Price</label>
+                                <input type="number" id="sub-price" placeholder="9.99" step="0.01" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="sub-cycle">Billing Cycle</label>
+                                <select id="sub-cycle" required>
+                                    <option value="monthly">Monthly</option>
+                                    <option value="yearly">Yearly</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="quarterly">Quarterly</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sub-date">Next Renewal Date</label>
+                                <input type="date" id="sub-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="sub-category">Category</label>
+                                <select id="sub-category" required>
+                                    <option value="entertainment">Entertainment</option>
+                                    <option value="software">Software</option>
+                                    <option value="fitness">Fitness</option>
+                                    <option value="cloud">Cloud Storage</option>
+                                    <option value="music">Music</option>
+                                    <option value="gaming">Gaming</option>
+                                    <option value="news">News & Media</option>
+                                    <option value="productivity">Productivity</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="sub-color">Color</label>
+                                <input type="color" id="sub-color" value="#6c5ce7">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">Add Subscription</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Edit Subscription</h3>
+                <button class="btn-close" id="modal-close">&times;</button>
+            </div>
+            <form id="edit-form">
+                <input type="hidden" id="edit-id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="edit-name">Name</label>
+                        <input type="text" id="edit-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-price">Price</label>
+                        <input type="number" id="edit-price" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-cycle">Billing Cycle</label>
+                        <select id="edit-cycle" required>
+                            <option value="monthly">Monthly</option>
+                            <option value="yearly">Yearly</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="quarterly">Quarterly</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-date">Next Renewal Date</label>
+                        <input type="date" id="edit-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-category">Category</label>
+                        <select id="edit-category" required>
+                            <option value="entertainment">Entertainment</option>
+                            <option value="software">Software</option>
+                            <option value="fitness">Fitness</option>
+                            <option value="cloud">Cloud Storage</option>
+                            <option value="music">Music</option>
+                            <option value="gaming">Gaming</option>
+                            <option value="news">News & Media</option>
+                            <option value="productivity">Productivity</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-color">Color</label>
+                        <input type="color" id="edit-color">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-danger" id="btn-delete">Delete</button>
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
