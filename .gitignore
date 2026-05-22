@@ -7,3 +7,23 @@ build/
 *.log
 .vscode/
 .idea/
+
+# Expo
+.expo/
+web-build/
+expo-env.d.ts
+
+# iOS / Android
+ios/
+android/
+
+# Misc
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*

@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "Subtrack",
+    "slug": "subtrack",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "subtrack",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#1A1D24"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.subtrack.app",
+      "infoPlist": {
+        "UIBackgroundModes": ["remote-notification"]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#1A1D24"
+      },
+      "package": "com.subtrack.app"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      [
+        "expo-notifications",
+        {
+          "color": "#7DD3FC"
+        }
+      ]
+    ]
+  }
+}
